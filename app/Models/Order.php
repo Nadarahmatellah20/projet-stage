@@ -17,8 +17,15 @@ class Order extends Model
         'description',
         'status',
         'order_status',
-        'is_archived',  // FIX: كانو ناقصين
-        'is_canceled',  // FIX: كانو ناقصين
+        'is_archived',
+        'is_canceled',
+    ];
+
+    // ✅ Casting pour éviter les bugs de type
+    protected $casts = [
+        'is_archived' => 'boolean',
+        'is_canceled' => 'boolean',
+        'status'      => 'float',
     ];
 
     // ✅ Tasks
@@ -31,7 +38,7 @@ class Order extends Model
         return $this->hasOne(Invoice::class, 'order_id');
     }
 
-    // ✅ FIX هنا (الأهم)
+    // ✅ Client
     public function Client(){
         return $this->belongsTo(User::class, 'client_id');
     }

@@ -20,8 +20,13 @@ class Task extends Model
         'cost',
     ];
 
-    // ✅ FIX: belongsTo هي الصحيحة (task تنتمي لـ order)
-    // hasOne كانت خاطئة لأن Task هي الطرف اللي عندو order_id
+    // ✅ Casting
+    protected $casts = [
+        'is_done' => 'boolean',
+        'is_paid' => 'boolean',
+        'cost'    => 'float',
+    ];
+
     public function Order()
     {
         return $this->belongsTo(Order::class, 'order_id');

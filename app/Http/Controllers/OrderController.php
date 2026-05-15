@@ -34,7 +34,7 @@ public function DisplayAllOrders()
     return view('user.dashboard.order.index', compact('orders'));
 }
 
-// FIX: صفحة مخصصة للطلبات الملغية
+
 public function DisplayCancelledOrders()
 {
     $orders = Auth::user()->Orders()
@@ -361,7 +361,11 @@ public function EditTask(Request $request, Order $order, Task $task)
     $task->cost    = $request->cost;
     $task->is_done = $request->is_done ?? false;
     $task->save();
-
+// Calcul automatique du progress (status)
+$totalTasks = $order->Tasks()->count();
+$doneTasks  = $order->Tasks()->where('is_done', true)->count();
+$order->status = $totalTasks > 0 ? round(($doneTasks / $totalTasks) * 100, 2) : 0;
+$order->save();
    
     $totalCost = $order->Tasks()->sum('cost');
     $invoice   = $order->Invoice()->first();

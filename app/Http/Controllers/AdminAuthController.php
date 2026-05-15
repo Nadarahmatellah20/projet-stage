@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Ticket;
+use App\Models\Invoice;
 
 class AdminAuthController extends Controller
 {
@@ -25,8 +26,6 @@ class AdminAuthController extends Controller
             'email'    => 'required|email',
             'password' => 'required|string',
         ]);
-
-        $credentials = $request->only('email', 'password');
 
         if (Auth::guard('admin')->attempt([
             'email'    => $request->email,
@@ -60,19 +59,26 @@ class AdminAuthController extends Controller
                              ->take(10)
                              ->get();
 
+        // ✅ Stats factures
+        $invoicePaidTotal   = Invoice::where('payment_status', 'paid')->sum('total_price');
+        $invoiceUnpaidTotal = Invoice::where('payment_status', 'not paid')->sum('total_price');
+        $invoiceUnpaidCount = Invoice::where('payment_status', 'not paid')->count();
+
         return view('admin.control-panel', compact(
             'admin',
             'ordersCount',
             'usersCount',
             'ticketsCount',
-            'latestOrders'
+            'latestOrders',
+            'invoicePaidTotal',
+            'invoiceUnpaidTotal',
+            'invoiceUnpaidCount'
         ));
     }
 
     public function showProfile()
     {
         $admin = Auth::guard('admin')->user();
-
         return view('admin.profile', compact('admin'));
     }
 
@@ -81,7 +87,6 @@ class AdminAuthController extends Controller
         Auth::guard('admin')->logout();
         session()->invalidate();
         session()->regenerateToken();
-
         return redirect('cp/login');
     }
 }

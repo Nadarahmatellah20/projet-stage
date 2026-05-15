@@ -58,6 +58,17 @@
                 </ul>
             </li>
 
+            <!-- FACTURES ✅ -->
+            <li class="section">
+                <div class="section-header">
+                    <h1><i class="fa-solid fa-file-invoice-dollar"></i> Factures</h1>
+                </div>
+
+                <ul class="subsection">
+                    <a href="{{route('indexInvoices')}}"><li>Toutes les Factures</li></a>
+                </ul>
+            </li>
+
             <!-- SUPPORT -->
             <li class="section">
                 <div class="section-header">
