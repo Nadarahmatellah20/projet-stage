@@ -55,7 +55,7 @@
          </div>
 
 
-            <input type="text" name="country" value="Algérie" hidden>
+            <input type="text" name="country" value="Morrocco" hidden>
 
             <div class="input-data">
                 <input type="text" name="city" id="city-name" autocomplete="off" onkeyup="validatecity()" >

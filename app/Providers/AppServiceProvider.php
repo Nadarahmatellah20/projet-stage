@@ -23,31 +23,31 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (! $this->app->runningInConsole()) {
+            try {
+                if (Schema::hasTable('services')) {
+                    $servicesList = Service::all();
 
-        if (Schema::hasTable('services')) {
-
-            $servicesList = Service::all();
-
-            View::composer('*', function ($view) use ($servicesList) {
-                $view->with(compact('servicesList'));
-            });
-
-        }
-
-        if (Schema::hasTable('order_list')) {
-
-            view()->composer('layouts.website-main', function ($view)
-            {
-                if(auth()->user()){
-                    $orderList = OrderList::where('user_id', auth()->user()->id)
-                        ->whereNull('order_id')
-                        ->get();
-
-                    $view->with(compact('orderList'));
+                    View::composer('*', function ($view) use ($servicesList) {
+                        $view->with(compact('servicesList'));
+                    });
                 }
-            });
+            } catch (\Illuminate\Database\QueryException $e) {
+                // Database is not ready yet (migrations may not be run or table is corrupt).
+                // Skip shared service data to avoid fatal boot errors during setup.
+            }
 
+            if (Schema::hasTable('order_list')) {
+                view()->composer('layouts.website-main', function ($view) {
+                    if (auth()->user()) {
+                        $orderList = OrderList::where('user_id', auth()->user()->id)
+                            ->whereNull('order_id')
+                            ->get();
+
+                        $view->with(compact('orderList'));
+                    }
+                });
+            }
         }
-
     }
 }

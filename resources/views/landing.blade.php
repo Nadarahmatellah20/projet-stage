@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/style.css" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Acceuil</title>
+    <title>Accueil</title>
     <script>
       var scroll = new SmoothScroll('a[href*="#"]');
     </script>
@@ -32,7 +32,7 @@
         
         <nav class="navigation">
             <ul>
-                <li><a href="{{route('main')}}" class="home"> Acceuil</a></li>
+                <li><a href="{{route('main')}}" class="home"> Accueil</a></li>
              <li class="menu">
     <a href="{{route('main')}}#services" class="services"> Services</a> 
     <i class="fa-sharp fa-solid fa-caret-down fa-xs dropicon" onclick="toggleDropdown()"></i>
@@ -66,7 +66,7 @@
                 <form action="{{url('search')}}"  method="get">
                  @csrf
                  <div class="search">
-                     <input type="text" name="search" value="" class="search__input" aria-label="search" placeholder="enter your search">
+                     <input type="text" name="search" value="" class="search__input" aria-label="search" placeholder="Rechercher">
                      <button class="search__submit" aria-label="submit search"><i class="fa-solid fa-magnifying-glass"></i></button>
                    </div>
                  </form>

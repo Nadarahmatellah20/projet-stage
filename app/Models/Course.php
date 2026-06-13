@@ -20,6 +20,13 @@ class Course extends Product
         'price'
     ];
 
+    // ✅ هاد accessor هو اللي كان ناقص
+    public function getImageAttribute(): ?string
+    {
+        return $this->prod_images->first()?->path;
+    }
+
+    // 🔗 Images
     public function prod_images()
     {
         return $this->hasMany(ProdImage::class, 'prod_id')

@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Auth\Events\Registered;
+
 
 class UserAuthController extends Controller
 {
@@ -29,6 +29,7 @@ class UserAuthController extends Controller
         'phone'    => 'required|string|max:255',
         'email'    => 'required|email|unique:users',
         'password' => 'required|string|min:8|max:255',
+        'cpwd'     => 'required|same:password',
     ]);
 
     $user = User::create([
@@ -46,8 +47,9 @@ class UserAuthController extends Controller
 
 
     Auth::login($user);
+    $request->session()->regenerate();
 
-    return redirect()->route('main');
+    return redirect()->route('userDashboard')->with('success', 'Compte créé avec succès.');
 }
 
 
